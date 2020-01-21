@@ -17,25 +17,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.agus.data.stage.origin.sample;
+package edu.agus.data.stage.data.stage.lib.sample;
 
+import com.streamsets.pipeline.api.ErrorCode;
 import com.streamsets.pipeline.api.GenerateResourceBundle;
-import com.streamsets.pipeline.api.Label;
 
 @GenerateResourceBundle
-public enum Groups implements Label {
-  SAMPLE("Sample"),
+public enum Errors implements ErrorCode {
+
+  SAMPLE_00("A configuration is invalid because: {}"),
+  SAMPLE_01("Specific reason writing record failed: {}"),
   ;
+  private final String msg;
 
-  private final String label;
-
-  private Groups(String label) {
-    this.label = label;
+  Errors(String msg) {
+    this.msg = msg;
   }
 
   /** {@inheritDoc} */
   @Override
-  public String getLabel() {
-    return this.label;
+  public String getCode() {
+    return name();
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public String getMessage() {
+    return msg;
   }
 }

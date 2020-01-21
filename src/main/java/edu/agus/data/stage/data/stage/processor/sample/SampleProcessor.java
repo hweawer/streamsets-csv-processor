@@ -17,11 +17,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.agus.data.stage.processor.sample;
+package edu.agus.data.stage.data.stage.processor.sample;
 
 import ch.hsr.geohash.GeoHash;
 import com.streamsets.pipeline.api.Field;
-import edu.agus.data.stage.lib.sample.Errors;
+import edu.agus.data.stage.data.stage.lib.sample.Errors;
 
 import com.streamsets.pipeline.api.Record;
 import com.streamsets.pipeline.api.StageException;
@@ -64,12 +64,14 @@ public abstract class SampleProcessor extends SingleLaneRecordProcessor {
   /** {@inheritDoc} */
   @Override
   protected void process(Record record, SingleLaneBatchMaker batchMaker) throws StageException {
-    // This example is a no-op
+    // This function creates geohash from given latitude and longitude
     GeoHash geohash = GeoHash.withCharacterPrecision(
             record.get("/Latitude").getValueAsDouble(),
             record.get("/Longitude").getValueAsDouble(),
             5);
+    // Creation of string field
     Field geohashField = Field.create(geohash.toBase32());
+    // Appending field with name '/Geohash' to the record
     record.set("/Geohash", geohashField);
     batchMaker.addRecord(record);
   }
