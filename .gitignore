@@ -1,3 +1,4 @@
 .idea/
 streamsets-csv-processor.iml
 target/
+.mvn/
