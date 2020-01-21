@@ -65,13 +65,12 @@ public abstract class SampleProcessor extends SingleLaneRecordProcessor {
   @Override
   protected void process(Record record, SingleLaneBatchMaker batchMaker) throws StageException {
     // This example is a no-op
-    String geohash = GeoHash.withCharacterPrecision(
+    GeoHash geohash = GeoHash.withCharacterPrecision(
             record.get("/Latitude").getValueAsDouble(),
             record.get("/Longitude").getValueAsDouble(),
-            5)
-            .toString();
-    Field geohashField = Field.create("/Geohash");
-    record.set(geohash, geohashField);
+            5);
+    Field geohashField = Field.create(geohash.toBase32());
+    record.set("/Geohash", geohashField);
     batchMaker.addRecord(record);
   }
 
